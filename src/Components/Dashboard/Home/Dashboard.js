@@ -23,11 +23,14 @@ const Dashboard = () => {
                                             </div>
                                             <div className="hidden md:block">
                                                 <div className="ml-10 flex items-baseline space-x-4">
-                                                    <Link to="/admin" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Dashboard</Link>
-                                                    <Link to="/admin/userpost" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Users</Link>
-                                                    <Link to="/admin/createblog" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Create Blog</Link>
-                                                    <Link to="/admin/makeadmin" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Make Admin</Link>
-                                                    <Link to="/" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>Home</Link>
+                                                    <Link to="/dashboard" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Dashboard</Link>
+                                                    <Link to="/dashboard/users" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Users</Link>
+                                                    <Link to="/dashboard/staffs" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Staffs</Link>
+                                                    <Link to="/dashboard/posts" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Posts</Link>
+                                                    <Link to="/dashboard/pendingposts" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Pending Posts</Link>
+                                                    <Link to="/dashboard/assignrole" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Assign Roles</Link>
+                                                    <Link to="/dashboard/createstaff" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Create Staff</Link>
+                                                    <Link to="/" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>Visit Site</Link>
                                                 </div>
                                             </div>
                                         </div>
@@ -72,13 +75,15 @@ const Dashboard = () => {
 
                     <header className="bg-white shadow">
                         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            <h1 className="text-3xl font-bold text-gray-900">Dashboad</h1>
+                            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
                         </div>
                     </header>
+
                     <main>
                         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                             {/* Replace with your content */}
-                            {/* <Outlet /> */}
+
+                            <Outlet />
                             {/* /End replace */}
                         </div>
                     </main>

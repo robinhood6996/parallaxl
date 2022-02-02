@@ -16,30 +16,46 @@ import UserPost from './Pages/User/Post/UserPost';
 import UserSignup from './Pages/User/Signup/UserSignup';
 import DashboardHome from './Components/Dashboard/Home/DahboardHome';
 import ViewPost from './Components/Dashboard/ViewPost/ViewPost';
+import AuthProvider from './Context/AuthProvider';
+import PrivateRoute from './Routes/PrivateRoute';
+import AdminRoute from './Routes/AdminRoute';
+import StaffBoard from './Components/Staff/Home/StaffBoard';
+import StaffHome from './Components/Staff/Home/StaffHome';
+import NotFound from './Components/Shared/NotFound';
 
 function App() {
     return (
         <div className="App">
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/blog/:id" element={<SingleBlog />} />
-                    <Route path="/createpost" element={<UserPost />} />
-                    <Route path="/login" element={<UserLogin />} />
-                    <Route path="/signup" element={<UserSignup />} />
-                    <Route path="/dashboard" element={<Dashboard />}>
-                        <Route path="/dashboard" element={<DashboardHome />} />
-                        <Route path="posts/:id" element={<ViewPost />} />
-                        <Route path="users" element={<Users />} />
-                        <Route path="staffs" element={<Staffs />} />
-                        <Route path="posts" element={<Posts />} />
-                        <Route path="pendingposts" element={<PendingPosts />} />
-                        <Route path="assignrole" element={<AssignRole />} />
-                        <Route path="createstaff" element={<CreateStaff />} />
-                    </Route>
-
-                </Routes>
-            </BrowserRouter>
+            <AuthProvider>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/blog/:id" element={<PrivateRoute><SingleBlog /></PrivateRoute>} />
+                        <Route path="/createpost" element={<UserPost />} />
+                        <Route path="/login" element={<UserLogin />} />
+                        <Route path="/signup" element={<UserSignup />} />
+                        <Route path="/dashboard" element={<AdminRoute><Dashboard /></AdminRoute>}>
+                            <Route path="/dashboard" element={<DashboardHome />} />
+                            <Route path="posts/:id" element={<ViewPost />} />
+                            <Route path="users" element={<Users />} />
+                            <Route path="staffs" element={<Staffs />} />
+                            <Route path="posts" element={<Posts />} />
+                            <Route path="pendingposts" element={<PendingPosts />} />
+                            <Route path="assignrole" element={<AssignRole />} />
+                            <Route path="createstaff" element={<CreateStaff />} />
+                        </Route>
+                        {/* Staff Routes */}
+                        <Route path="/staffboard" element={<StaffBoard />}>
+                            <Route path="/staffboard" element={<StaffHome />} />
+                            <Route path="posts/:id" element={<ViewPost />} />
+                            <Route path="users" element={<Users />} />
+                            <Route path="posts" element={<Posts />} />
+                            <Route path="pendingposts" element={<PendingPosts />} />
+                        </Route>
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </BrowserRouter>
+            </AuthProvider>
         </div>
     )
 }

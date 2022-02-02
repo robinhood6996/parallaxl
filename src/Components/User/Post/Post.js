@@ -1,43 +1,48 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-// import axios from 'axios';
+import useAuth from '../../../Hooks/useAuth';
 
 const Post = () => {
-
+    const { user } = useAuth();
     const [title, setTitle] = useState('');
-    const [location, setLocation] = useState('');
-    const [budget, setBudget] = useState('');
     const [date, setDate] = useState(null);
-    const [category, setCategory] = useState(null);
-    const [rating, setRating] = useState(0);
     const [description, setDescription] = useState('');
     const [image, setImage] = useState(null);
-    const [author, setAuthor] = useState('user.displayName');
-
+    const [author, setAuthor] = useState(user.displayName);
     const handleAddBlog = (e) => {
         e.preventDefault();
-        const blog = { title, date, description, author, image };
-        console.log(blog)
-        // axios.post('https://travelexss.herokuapp.com/blogs', blog)
-        //     .then(res => {
-        //         if (res.data.insertedId) {
-        //             e.target.value = '';
-        //             alert('Your blog has been submitted!')
-        //         } else {
-        //             alert('Your blog cannot submitted due to some reason')
-        //         }
-        //     })
-        //     .catch(error => {
-        //         if (error.message) {
-        //             alert(error.message);
-        //         }
-        //     });
+        if (!image || !title || !date || !description) {
+            alert('Please Fillup All the field');
+            return;
+        }
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('date', date);
+        formData.append('description', description);
+        formData.append('author', author);
+        formData.append('image', image);
+
+        axios.post('http://localhost:5000/posts', formData)
+            .then(res => {
+                if (res.data.insertedId) {
+                    e.target.value = '';
+                    alert('Your post has been submitted for review!')
+                } else {
+                    alert('Your post cannot submitted due to some reason')
+                }
+            })
+            .catch(error => {
+                if (error.message) {
+                    alert(error.message);
+                }
+            });
 
     }
 
 
     return (
         <div className='container mx-auto py-10'>
-            <h1 className='text-center font-bold text-3xl text-violet-500'>Add Tour Blog</h1>
+            <h1 className='text-center font-bold text-3xl text-violet-500'>Add Post</h1>
             <div className=''>
                 <div className="md:grid md:grid-cols-1 md:gap-6">
                     <div className="mt-5 md:mt-0 md:col-span-2">

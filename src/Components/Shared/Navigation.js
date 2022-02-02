@@ -2,10 +2,14 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom';
+import useAuth from '../../Hooks/useAuth';
 // import userIcon from '../../../Images/user.png';
 
 const Navigation = () => {
-    // const { user, logOut, admin } = useAuth();
+    const { user, logOut, userRole } = useAuth();
+    const handleLogout = () => {
+        logOut();
+    }
     return (
         <Disclosure as="nav" className="bg-gray-800">
             {({ open }) => (
@@ -42,9 +46,15 @@ const Navigation = () => {
                                             user.email ? ' ' : <Link to="/login" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Login</Link>
                                         } */}
                                         <Link to="/createpost" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Create Post</Link>
-                                        <Link to="/login" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Login</Link>
-                                        <Link to="/dashboard" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Dashboard</Link>
-                                        <button className='bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
+                                        {
+                                            !user?.email ? <Link to="/login" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Login</Link>
+                                                :
+                                                <button className='bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium' onClick={handleLogout}>Logout</button>
+                                        }
+                                        {
+                                            userRole === 'admin' && <Link to="/dashboard" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Dashboard</Link>
+                                        }
+
                                     </div>
                                 </div>
                             </div>

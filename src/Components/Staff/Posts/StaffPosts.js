@@ -2,7 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const PendingPosts = () => {
+const StaffPosts = () => {
+
     const [blogs, setBlogs] = useState([]);
     const [status, setStatus] = useState();
     useEffect(() => {
@@ -39,12 +40,13 @@ const PendingPosts = () => {
                 })
         }
     }
+
     return (
         <div className="flex flex-col">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                        <h2 className='text-center font-bold text-2xl'>All Pending Posts</h2>
+                        <h2 className='text-center font-bold text-2xl'>All Approved Post</h2>
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                                 <tr>
@@ -76,6 +78,12 @@ const PendingPosts = () => {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
+                                        Comments
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
                                         Action
                                     </th>
                                 </tr>
@@ -96,6 +104,7 @@ const PendingPosts = () => {
                                             <div className="text-sm text-gray-900">{blog.title}</div>
                                             {/* <div className="text-sm text-gray-500">{person.department}</div> */}
                                         </td>
+
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {
                                                 blog.status === 'Pending' ? <button onClick={() => handleStatus(blog._id, 'Approved')} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-300 text-black">
@@ -107,14 +116,17 @@ const PendingPosts = () => {
                                             }
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{blog.date}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-gray-900">55</div>
+                                            {/* <div className="text-sm text-gray-500">{person.department}</div> */}
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <Link to="" className="text-black bg-violet-300 p-2 rounded font-bold">
+                                            <Link to=":id" className="text-black bg-violet-300 p-2 rounded mx-2">
                                                 View
                                             </Link>
-                                            <button className="text-red-600 hover:text-red-900 mx-2 bg-violet-300 p-2 rounded font-bold" onClick={() => deleteBlog(blog._id)}>
+                                            <button className="text-red-600 bg-violet-300 p-2 rounded font-bold" onClick={() => deleteBlog(blog._id)}>
                                                 Delete
                                             </button>
-
                                         </td>
                                     </tr>
                                 ))}
@@ -127,4 +139,4 @@ const PendingPosts = () => {
     );
 };
 
-export default PendingPosts;
+export default StaffPosts;

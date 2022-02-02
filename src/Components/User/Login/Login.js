@@ -2,16 +2,19 @@ import React from 'react';
 import { useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../../../Hooks/useAuth';
 const Login = () => {
-
+    const { logInWithEmailAndPass, error } = useAuth();
     const location = useLocation();
     const history = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const pathname = location?.state?.from?.pathname;
+    let navigate = useNavigate();
 
     const handleLoginSubmit = e => {
         e.preventDefault();
-        console.log(email, password, location, history);
+        logInWithEmailAndPass(email, password, pathname, navigate);
     }
     return (
         <>
@@ -85,7 +88,9 @@ const Login = () => {
 
                         </div>
                     </form>
-
+                    {
+                        error && <p className='text-red-800'>{error}</p>
+                    }
                 </div>
             </div>
         </>

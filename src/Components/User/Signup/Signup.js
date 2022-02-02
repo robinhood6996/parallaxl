@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import useAuth from '../../../Hooks/useAuth';
 
 const Signup = () => {
-
+    const { registerWithEmailAndPass } = useAuth();
     const [loginData, setLoginData] = useState({});
     const location = useLocation();
-    const history = useNavigate();
-
+    const pathname = location?.state?.from?.pathname;
+    const navigate = useNavigate();
     const handleOnBlur = e => {
         const field = e.target.name;
         const value = e.target.value;
@@ -22,7 +24,8 @@ const Signup = () => {
             alert('Your password did not match');
             return;
         }
-        console.log(loginData.username, loginData.email, loginData.password, history);
+        registerWithEmailAndPass(loginData.email, loginData.password, loginData.username, pathname, navigate)
+
 
     }
     return (
@@ -91,7 +94,7 @@ const Signup = () => {
                                     Password
                                 </label>
                                 <input
-                                    id="password"
+                                    id="confirm-password"
                                     name="confirmPassword"
                                     type="password"
                                     autoComplete="current-password"

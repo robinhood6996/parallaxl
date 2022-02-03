@@ -11,7 +11,7 @@ const Blogs = () => {
     // const activePost = blogs.filter(blog => blog.status !== 0)
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/posts`)
+        axios.get(`https://secret-crag-61568.herokuapp.com/posts`)
             .then(res => {
                 setBlogs(res.data)
 
@@ -45,13 +45,13 @@ const Blogs = () => {
                                     </Link>
                                 </h3>
                                 {/* <p className="text-md text-gray-800">{callout.description.slice(0, 150)}</p> */} <div className="details">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid exercitationem, vero eaque voluptas minima iste amet labore harum iusto laborum quisquam alias fugiat ut vitae magnam voluptatem illum consequuntur, obcaecati fuga! Ad fugit eligendi tenetur assumenda odio porro sed rem corrupti provident, molestiae magnam laborum, enim laudantium eum. Quos, natus! <a href='/' className='text-violet-500 font-semibold'>Read More</a></p>
+                                    <p>{blog.description.slice(0, 200)} <Link to={`posts/${blog._id}`} className='text-violet-500 font-semibold'>Read More</Link></p>
                                 </div>
 
 
 
                                 <div className='mt-3 '>
-                                    <h2 className='font-bold'>Commments: <span className='font-base'>50</span></h2>
+                                    <h2 className='font-bold'>Commments: <span className='font-base'>{blog.comment.length}</span></h2>
                                 </div>
 
 

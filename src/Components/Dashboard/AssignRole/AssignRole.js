@@ -11,7 +11,7 @@ const AssignRole = () => {
             alert('Please Fillup All the Field!')
         }
         const user = { email, role };
-        axios.put(`http://localhost:5000/users/staff/`, user)
+        axios.put(`https://secret-crag-61568.herokuapp.com/users/staff/`, user)
             .then(res => {
                 if (res.data.matchedCount) {
                     alert(`Your made this user to ${role}`);

@@ -11,9 +11,6 @@ const ViewPost = () => {
             .then(res => setBlog(res.data))
     }, []);
 
-    if (!blog) {
-        return
-    }
     return (
         <>
             <div className="blog container mx-auto p-4 mt-5">

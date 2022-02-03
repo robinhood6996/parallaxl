@@ -87,11 +87,12 @@ const Signup = () => {
                                     className="mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                     placeholder="Password"
                                     onBlur={handleOnBlur}
+                                    minLength="8"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="password" className="sr-only">
-                                    Password
+                                <label htmlFor="confirmPassword" className="sr-only">
+                                    Confirm Password
                                 </label>
                                 <input
                                     id="confirm-password"
@@ -102,6 +103,7 @@ const Signup = () => {
                                     className="mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                     placeholder="Confirm Password"
                                     onBlur={handleOnBlur}
+                                    minLength="8"
                                 />
                             </div>
                         </div>
@@ -123,7 +125,7 @@ const Signup = () => {
                                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                                     <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                                 </span>
-                                Sign in
+                                Sign Up
                             </button>
                         </div>
                     </form>

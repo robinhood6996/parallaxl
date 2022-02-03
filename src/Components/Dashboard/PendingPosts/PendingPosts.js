@@ -6,7 +6,7 @@ const PendingPosts = () => {
     const [posts, setPosts] = useState([]);
     const [status, setStatus] = useState();
     useEffect(() => {
-        axios.get('http://localhost:5000/posts/pending')
+        axios.get('https://secret-crag-61568.herokuapp.com/posts/pending')
             .then(res => {
                 setPosts(res.data);
             })
@@ -15,7 +15,7 @@ const PendingPosts = () => {
     const deleteBlog = (id) => {
         const confirm = window.confirm('Are you sure to delete this Post?');
         if (confirm) {
-            axios.delete(`http://localhost:5000/posts/${id}`)
+            axios.delete(`https://secret-crag-61568.herokuapp.com/posts/${id}`)
                 .then(res => {
                     if (res.data.deletedCount) {
                         alert('This post has been Deleted!');
@@ -30,7 +30,7 @@ const PendingPosts = () => {
     const handleStatus = (id, status) => {
         const confirm = window.confirm(`Are you sure to approve this post ?`);
         if (confirm) {
-            axios.put(`http://localhost:5000/posts/status/${id}`, { status: status })
+            axios.put(`https://secret-crag-61568.herokuapp.com/posts/status/${id}`, { status: status })
                 .then(res => {
                     if (res.data.matchedCount) {
                         alert('Post Approved');

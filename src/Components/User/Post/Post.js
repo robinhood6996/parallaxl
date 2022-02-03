@@ -22,7 +22,7 @@ const Post = () => {
         formData.append('author', author);
         formData.append('image', image);
 
-        axios.post('http://localhost:5000/posts', formData)
+        axios.post('https://secret-crag-61568.herokuapp.com/posts', formData)
             .then(res => {
                 if (res.data.insertedId) {
                     e.target.value = '';

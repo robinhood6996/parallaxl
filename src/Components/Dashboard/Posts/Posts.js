@@ -1,11 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const Posts = () => {
     const [posts, setPosts] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:5000/posts')
+        axios.get('https://secret-crag-61568.herokuapp.com/posts')
             .then(res => {
                 setPosts(res.data);
             })
@@ -14,7 +13,7 @@ const Posts = () => {
     const deleteBlog = (id) => {
         const confirm = window.confirm('Are you sure to delete this Post?');
         if (confirm) {
-            axios.delete(`http://localhost:5000/posts/${id}`)
+            axios.delete(`https://secret-crag-61568.herokuapp.com/posts/${id}`)
                 .then(res => {
                     if (res.data.deletedCount) {
                         alert('This post has been Deleted!');
@@ -103,9 +102,7 @@ const Posts = () => {
                                             {/* <div className="text-sm text-gray-500">{person.department}</div> */}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <Link to={`${post._id}`} className="text-black bg-violet-300 p-2 rounded mx-2">
-                                                View
-                                            </Link>
+
                                             <button className="text-red-600 bg-violet-300 p-2 rounded font-bold" onClick={() => deleteBlog(post._id)}>
                                                 Delete
                                             </button>

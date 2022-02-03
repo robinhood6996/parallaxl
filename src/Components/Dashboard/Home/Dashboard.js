@@ -2,8 +2,9 @@ import { Disclosure, } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import React, { Fragment } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-
+import useAuth from '../../../Hooks/useAuth';
 const Dashboard = () => {
+    const { logOut } = useAuth();
     return (
         <div>
             <>
@@ -31,6 +32,7 @@ const Dashboard = () => {
                                                     <Link to="/dashboard/assignrole" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Assign Roles</Link>
                                                     <Link to="/dashboard/createstaff" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Create Staff</Link>
                                                     <Link to="/" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>Visit Site</Link>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -60,11 +62,15 @@ const Dashboard = () => {
                                 <Disclosure.Panel className="md:hidden">
                                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
 
-                                        <Link to="/admin" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>Dashboard</Link>
-                                        <Link to="/admin/userpost" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>All Blogs</Link>
-                                        <Link to="/admin/createblog" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>Create Blog</Link>
-                                        <Link to="/admin/makeadmin" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>Make Admin</Link>
-                                        <Link to="/" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>Home</Link>
+                                        <Link to="/dashboard" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Dashboard</Link>
+                                        <Link to="/dashboard/users" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Users</Link>
+                                        <Link to="/dashboard/staffs" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Staffs</Link>
+                                        <Link to="/dashboard/posts" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Posts</Link>
+                                        <Link to="/dashboard/pendingposts" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Pending Posts</Link>
+                                        <Link to="/dashboard/assignrole" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Assign Roles</Link>
+                                        <Link to="/dashboard/createstaff" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Create Staff</Link>
+                                        <Link to="/" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium block'>Visit Site</Link>
+
 
                                     </div>
 

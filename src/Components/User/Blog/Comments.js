@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { getComments, createComment as createCommentApi, createComment } from '../../../api';
 import Comment from './Comment';
 import CommentForm from './CommentForm';
 import useAuth from '../../../Hooks/useAuth';
@@ -16,13 +15,12 @@ const Comments = ({ blog, id }) => {
         );
     }
     useEffect(() => {
-        axios.get(`http://localhost:5000/posts/${id}`)
+        axios.get(`https://secret-crag-61568.herokuapp.com/posts/${id}`)
             .then(data => setBackendCommnets(data.data.comment))
 
     }, []);
     const rootComments = backendComments?.filter(backendComment => backendComment?.parentId === null);
     const addComment = (text, parentId = null) => {
-        console.log('addCommnet', text, parentId);
         const generateComment = {
             id: Math.random().toString(36).substring(2, 9),
             body: text,
@@ -35,14 +33,14 @@ const Comments = ({ blog, id }) => {
         //     setBackendCommnets([comment, ...backendComments]);
         //     setActiveComment(null);
         // })
-        axios.put(`http://localhost:5000/posts/comment/${id}`, [generateComment, ...backendComments])
+        axios.put(`https://secret-crag-61568.herokuapp.com/posts/comment/${id}`, [generateComment, ...backendComments])
             .then(data => {
                 setBackendCommnets([generateComment, ...backendComments,]);
                 setActiveComment(null);
             })
 
     }
-    console.log(backendComments);
+
     return (
         <div className="comment-area">
             {/* <div className="comment-form-title">Write Comment</div> */}

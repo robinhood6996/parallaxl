@@ -11,7 +11,7 @@ const Blog = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/posts/${id}`)
+        axios.get(`https://secret-crag-61568.herokuapp.com/posts/${id}`)
             .then(res => {
                 setBlog(res.data);
             })

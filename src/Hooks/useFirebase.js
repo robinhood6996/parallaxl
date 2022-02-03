@@ -57,7 +57,7 @@ const useFirebase = () => {
 
     // Login With Email and Password
     const logInWithEmailAndPass = (email, password, path, navigate) => {
-        fetch(`http://localhost:5000/users/${email}`)
+        fetch(`https://secret-crag-61568.herokuapp.com/users/${email}`)
             .then(res => res.json())
             .then(data => {
                 if (data.status === 1) {
@@ -108,7 +108,7 @@ const useFirebase = () => {
     //Save user data to database and initial status will be inactive
     const saveUserToDB = (email, displayName, method) => {
         const user = { email, displayName };
-        fetch('http://localhost:5000/users', {
+        fetch('https://secret-crag-61568.herokuapp.com/users', {
             method: method,
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify(user)
@@ -119,24 +119,9 @@ const useFirebase = () => {
             })
     }
 
-    //get user Data from database if active then user can login
-    // const getUserFromDB = (email) => {
-    //     setIsLoading(true);
-    //     fetch(`http://localhost:5000/users/${email}`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log(data);
-    //             setIsLoading(false);
-    //             return data;
-    //         })
-    //         .catch(error => {
-    //             setError(error.message);
-    //         })
-    // }
-
     //user role check 
     useEffect(() => {
-        fetch(`http://localhost:5000/users/${user?.email}`)
+        fetch(`https://secret-crag-61568.herokuapp.com/users/${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 setUserRole(data?.role);
@@ -149,7 +134,7 @@ const useFirebase = () => {
             setError('');
         }).catch((error) => {
             setError(error.message)
-        });
+        }).finally(setIsLoading(false))
     }
 
     console.log(user);

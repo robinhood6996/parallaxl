@@ -7,18 +7,14 @@ import './Blogs.css'
 const Blogs = () => {
     const [blogs, setBlogs] = useState([]);
     const [page, setPage] = useState(0);
-    const [value, setValue] = useState('AllBlogs');
-    const [pageCount, setPageCount] = useState(0)
-    const size = 10;
-    const activePost = blogs.filter(blog => blog.status !== 'Pending')
+    // const size = 10;
+    // const activePost = blogs.filter(blog => blog.status !== 0)
 
     useEffect(() => {
-        axios.get(`https://travelexss.herokuapp.com/blogs?page=${page}&&size=${size}`)
+        axios.get(`http://localhost:5000/posts`)
             .then(res => {
-                setBlogs(res.data.blogs)
-                const count = res.data.count
-                const pageNumber = Math.ceil(count / size);
-                setPageCount(pageNumber);
+                setBlogs(res.data)
+
             }).catch(err => alert(err.message))
     }, [page]);
 
@@ -36,14 +32,14 @@ const Blogs = () => {
                             <div key={blog._id} className="group relative shadow-lg p-2 rounded">
                                 <div className="relative w-full h-80 bg-white rounded-lg overflow-hidden group-hover:opacity-75 sm:aspect-w-2 sm:aspect-h-1 sm:h-64 lg:aspect-w-1 lg:aspect-h-1">
                                     <img
-                                        src={blog.image}
+                                        src={`data:image/jpeg;base64, ${blog?.image}`}
                                         alt="Tour Scene"
                                         className="w-full h-full object-center object-cover"
                                     />
                                 </div>
                                 <p className='text-sm text-gray-500'>Author</p>
                                 <h3 className=" text-2xl font-semibold text-gray-900 ">
-                                    <Link to='/blog/:id'>
+                                    <Link to={`posts/${blog._id}`}>
                                         <span className="absolute inset-0" />
                                         {blog.title}
                                     </Link>

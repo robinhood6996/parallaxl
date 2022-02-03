@@ -3,34 +3,36 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Users = () => {
-    const [blogs, setBlogs] = useState([]);
+    const [users, setUsers] = useState([]);
     const [status, setStatus] = useState();
+    const [statusValue, setStatusValue] = useState(1);
     useEffect(() => {
-        axios.get('https://travelexss.herokuapp.com/blogs/admin')
+        axios.get('http://localhost:5000/users')
             .then(res => {
-                setBlogs(res.data);
+                setUsers(res.data);
             })
     }, [status]);
+    const inactiveUsers = users.filter(user => user.status !== 1);
 
-    const deleteBlog = (id) => {
-        const confirm = window.confirm('Are you sure to delte this blog?');
-        if (confirm) {
-            axios.delete(`https://travelexss.herokuapp.com/blog/${id}`)
-                .then(res => {
-                    if (res.data.deletedCount) {
-                        alert('Your Blog Deleted!');
-                        const rest = blogs.filter(blog => blog._id !== id);
-                        setBlogs(rest);
-                    }
-                });
-        }
-    }
+    // const deleteBlog = (id) => {
+    //     const confirm = window.confirm('Are you sure to delte this blog?');
+    //     if (confirm) {
+    //         axios.delete(`https://travelexss.herokuapp.com/blog/${id}`)
+    //             .then(res => {
+    //                 if (res.data.deletedCount) {
+    //                     alert('Your Blog Deleted!');
+    //                     const rest = blogs.filter(blog => blog._id !== id);
+    //                     setBlogs(rest);
+    //                 }
+    //             });
+    //     }
+    // }
 
     //Change Status 
-    const handleStatus = (id, status) => {
-        const confirm = window.confirm(`Are you sure to change it ${status} ?`);
+    const handleStatus = (email, status) => {
+        const confirm = window.confirm(`Are you sure to make this user ${status === 1 ? 'Active' : 'Inactive'} ?`);
         if (confirm) {
-            axios.put(`https://travelexss.herokuapp.com/blog/status/${id}`, { status: status })
+            axios.put(`http://localhost:5000/users/status/${email}`, { status: status })
                 .then(res => {
                     if (res.data.matchedCount) {
                         alert('Status Changed');
@@ -48,9 +50,10 @@ const Users = () => {
                         <div className='grid grid-cols-2 border p-4'>
                             <div className="filter">
                                 <label htmlFor="status" className='mx-2 font-bold'>Filter Users</label>
-                                <select name="status" id="" className='bg-violet-200'>
-                                    <option value="active">Active</option>
-                                    <option value="active">Inactive</option>
+                                <select name="status" id="" className='bg-violet-200' onChange={e => setStatusValue(parseInt(e.target.value))}>
+                                    <option selected>Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
                                 </select>
                             </div>
 
@@ -90,32 +93,71 @@ const Users = () => {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {blogs.map((blog) => (
-                                    <tr key={blog._id}>
+                                {statusValue === 1 && users.map((user) => (
+                                    <tr key={user._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
 
                                                 <div className="ml-4">
-                                                    <div className="text-sm font-medium text-gray-900">{blog.author}</div>
+                                                    <div className="text-sm font-medium text-gray-900">{user.displayName}</div>
 
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900">{blog.title}</div>
+                                            <div className="text-sm text-gray-900">{user.email}</div>
                                             {/* <div className="text-sm text-gray-500">{person.department}</div> */}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <button onClick={() => handleStatus(blog._id, 'Approved')} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-300 text-black" title='Click to mark this user as Active'>
-                                                Inactive
-                                            </button> : <button onClick={() => handleStatus(blog._id, 'Pending')} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" title='Click to mark this user as Inactive'>
-                                                Active
-                                            </button>
+                                            {
+                                                user?.status === 1 ? <button onClick={() => handleStatus(user.email, 0)} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" title='Click to mark this user as Inactive'>
+                                                    Active
+                                                </button> :
 
+                                                    <button onClick={() => handleStatus(user.email, 1)} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-300 text-black" title='Click to mark this user as Active'>
+                                                        Inactive
+                                                    </button>
+                                            }
 
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button className="text-red-600 hover:text-red-900 bg-violet-300 p-2 rounded font-bold" onClick={() => deleteBlog(blog._id)}>
+                                            <button className="text-red-600 hover:text-red-900 bg-violet-300 p-2 rounded font-bold" >
+                                                Delete
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                ))}
+
+                                {statusValue === 0 && inactiveUsers.map((user) => (
+                                    <tr key={user._id}>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+
+                                                <div className="ml-4">
+                                                    <div className="text-sm font-medium text-gray-900">{user.displayName}</div>
+
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-gray-900">{user.email}</div>
+                                            {/* <div className="text-sm text-gray-500">{person.department}</div> */}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {
+                                                user?.status === 1 ? <button onClick={() => handleStatus(user.email, 0)} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" title='Click to mark this user as Inactive'>
+                                                    Active
+                                                </button> :
+
+                                                    <button onClick={() => handleStatus(user.email, 1)} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-300 text-black" title='Click to mark this user as Active'>
+                                                        Inactive
+                                                    </button>
+                                            }
+
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button className="text-red-600 hover:text-red-900 bg-violet-300 p-2 rounded font-bold" >
                                                 Delete
                                             </button>
 

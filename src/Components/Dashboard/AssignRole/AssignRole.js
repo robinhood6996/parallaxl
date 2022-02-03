@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const AssignRole = () => {
     const [email, setEmail] = useState('');
@@ -6,7 +7,20 @@ const AssignRole = () => {
 
     const handleLoginSubmit = e => {
         e.preventDefault();
-        console.log(email, role);
+        if (!email || !role) {
+            alert('Please Fillup All the Field!')
+        }
+        const user = { email, role };
+        axios.put(`http://localhost:5000/users/staff/`, user)
+            .then(res => {
+                if (res.data.matchedCount) {
+                    alert(`Your made this user to ${role}`);
+                    e.target.reset();
+                }
+            })
+            .catch(err => {
+                alert(err.message)
+            })
     }
     return (
         <>
@@ -42,11 +56,12 @@ const AssignRole = () => {
                                     id="country"
                                     name="country"
                                     autoComplete="country-name"
-                                    className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" onChange={e => setRole(e.target.value)}
                                 >
-                                    <option disabled defaultValue='none'>Select a role</option>
-                                    <option defaultValue="user">User</option>
-                                    <option defaultValue="staff">Staff</option>
+                                    <option defaultValue='none'>Select a role</option>
+                                    <option defaultValue="admin">admin</option>
+                                    <option defaultValue="staff">staff</option>
+                                    <option defaultValue="user">user</option>
                                 </select>
                             </div>
                         </div>

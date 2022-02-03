@@ -3,42 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Posts = () => {
-    const [blogs, setBlogs] = useState([]);
-    const [status, setStatus] = useState();
+    const [posts, setPosts] = useState([]);
     useEffect(() => {
-        axios.get('https://travelexss.herokuapp.com/blogs/admin')
+        axios.get('http://localhost:5000/posts')
             .then(res => {
-                setBlogs(res.data);
+                setPosts(res.data);
             })
-    }, [status]);
+    }, []);
 
     const deleteBlog = (id) => {
-        const confirm = window.confirm('Are you sure to delte this blog?');
+        const confirm = window.confirm('Are you sure to delete this Post?');
         if (confirm) {
-            axios.delete(`https://travelexss.herokuapp.com/blog/${id}`)
+            axios.delete(`http://localhost:5000/posts/${id}`)
                 .then(res => {
                     if (res.data.deletedCount) {
-                        alert('Your Blog Deleted!');
-                        const rest = blogs.filter(blog => blog._id !== id);
-                        setBlogs(rest);
+                        alert('This post has been Deleted!');
+                        const rest = posts.filter(blog => blog._id !== id);
+                        setPosts(rest);
                     }
                 });
         }
     }
 
-    //Change Status 
-    const handleStatus = (id, status) => {
-        const confirm = window.confirm(`Are you sure to change it ${status} ?`);
-        if (confirm) {
-            axios.put(`https://travelexss.herokuapp.com/blog/status/${id}`, { status: status })
-                .then(res => {
-                    if (res.data.matchedCount) {
-                        alert('Status Changed');
-                        setStatus(status);
-                    }
-                })
-        }
-    }
+
     return (
         <div className="flex flex-col">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -87,42 +74,39 @@ const Posts = () => {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {blogs.map((blog) => (
-                                    <tr key={blog._id}>
+                                {posts.map((post) => (
+                                    <tr key={post._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
 
                                                 <div className="ml-4">
-                                                    <div className="text-sm font-medium text-gray-900">{blog.author}</div>
+                                                    <div className="text-sm font-medium text-gray-900">{post.author}</div>
 
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900">{blog.title}</div>
+                                            <div className="text-sm text-gray-900">{post.title}</div>
                                             {/* <div className="text-sm text-gray-500">{person.department}</div> */}
                                         </td>
 
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {
-                                                blog.status === 'Pending' ? <button onClick={() => handleStatus(blog._id, 'Approved')} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-300 text-black">
-                                                    {blog.status}
-                                                </button> : <button onClick={() => handleStatus(blog._id, 'Pending')} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                    {blog.status}
-                                                </button>
+                                            <button className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Approved
+                                            </button>
 
-                                            }
+
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{blog.date}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{post.date}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900">55</div>
+                                            <div className="text-sm text-gray-900">{post.comment.length}</div>
                                             {/* <div className="text-sm text-gray-500">{person.department}</div> */}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <Link to=":id" className="text-black bg-violet-300 p-2 rounded mx-2">
+                                            <Link to={`${post._id}`} className="text-black bg-violet-300 p-2 rounded mx-2">
                                                 View
                                             </Link>
-                                            <button className="text-red-600 bg-violet-300 p-2 rounded font-bold" onClick={() => deleteBlog(blog._id)}>
+                                            <button className="text-red-600 bg-violet-300 p-2 rounded font-bold" onClick={() => deleteBlog(post._id)}>
                                                 Delete
                                             </button>
                                         </td>

@@ -7,12 +7,10 @@ const PrivateRoute = ({ children, ...rest }) => {
     const { user, isLoading } = useAuth();
     let location = useLocation();
     if (isLoading) {
-        return (<div className="lds-hourglass text-center"></div>)
+        return <div className="lds-hourglass text-center"></div>
     }
-    if (!user.email) {
-        return <Navigate to="/login" state={{ from: location }} replace />;
-    }
-    return children
+
+    return user.email ? children : <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 export default PrivateRoute;

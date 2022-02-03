@@ -3,24 +3,24 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const PendingPosts = () => {
-    const [blogs, setBlogs] = useState([]);
+    const [posts, setPosts] = useState([]);
     const [status, setStatus] = useState();
     useEffect(() => {
-        axios.get('https://travelexss.herokuapp.com/blogs/admin')
+        axios.get('http://localhost:5000/posts/pending')
             .then(res => {
-                setBlogs(res.data);
+                setPosts(res.data);
             })
     }, [status]);
 
     const deleteBlog = (id) => {
-        const confirm = window.confirm('Are you sure to delte this blog?');
+        const confirm = window.confirm('Are you sure to delete this Post?');
         if (confirm) {
-            axios.delete(`https://travelexss.herokuapp.com/blog/${id}`)
+            axios.delete(`http://localhost:5000/posts/${id}`)
                 .then(res => {
                     if (res.data.deletedCount) {
-                        alert('Your Blog Deleted!');
-                        const rest = blogs.filter(blog => blog._id !== id);
-                        setBlogs(rest);
+                        alert('This post has been Deleted!');
+                        const rest = posts.filter(blog => blog._id !== id);
+                        setPosts(rest);
                     }
                 });
         }
@@ -28,12 +28,12 @@ const PendingPosts = () => {
 
     //Change Status 
     const handleStatus = (id, status) => {
-        const confirm = window.confirm(`Are you sure to change it ${status} ?`);
+        const confirm = window.confirm(`Are you sure to approve this post ?`);
         if (confirm) {
-            axios.put(`https://travelexss.herokuapp.com/blog/status/${id}`, { status: status })
+            axios.put(`http://localhost:5000/posts/status/${id}`, { status: status })
                 .then(res => {
                     if (res.data.matchedCount) {
-                        alert('Status Changed');
+                        alert('Post Approved');
                         setStatus(status);
                     }
                 })
@@ -64,7 +64,7 @@ const PendingPosts = () => {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
-                                        Status
+                                        Change Status
                                     </th>
                                     <th
                                         scope="col"
@@ -81,43 +81,45 @@ const PendingPosts = () => {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {blogs.map((blog) => (
-                                    <tr key={blog._id}>
+                                {posts.map((post) => (
+                                    <tr key={post._id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
 
                                                 <div className="ml-4">
-                                                    <div className="text-sm font-medium text-gray-900">{blog.author}</div>
+                                                    <div className="text-sm font-medium text-gray-900">{post.author}</div>
 
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900">{blog.title}</div>
+                                            <div className="text-sm text-gray-900">{post.title}</div>
                                             {/* <div className="text-sm text-gray-500">{person.department}</div> */}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             {
-                                                blog.status === 'Pending' ? <button onClick={() => handleStatus(blog._id, 'Approved')} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-300 text-black">
-                                                    {blog.status}
-                                                </button> : <button onClick={() => handleStatus(blog._id, 'Pending')} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                    {blog.status}
+                                                post.status === 0 && <button onClick={() => handleStatus(post._id, 1)} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" title='click here to approve this post'>
+                                                    Click to Approved
                                                 </button>
 
                                             }
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{blog.date}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{post.date}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <Link to="" className="text-black bg-violet-300 p-2 rounded font-bold">
                                                 View
                                             </Link>
-                                            <button className="text-red-600 hover:text-red-900 mx-2 bg-violet-300 p-2 rounded font-bold" onClick={() => deleteBlog(blog._id)}>
+                                            <button className="text-red-600 hover:text-red-900 mx-2 bg-violet-300 p-2 rounded font-bold" onClick={() => deleteBlog(post._id)}>
                                                 Delete
                                             </button>
 
                                         </td>
                                     </tr>
+
                                 ))}
+                                {
+                                    posts.length < 1 && <h2 className='font-bold text-4xl text-red-500 text-center p-4'>No Pending Post Available</h2>
+                                }
                             </tbody>
                         </table>
                     </div>

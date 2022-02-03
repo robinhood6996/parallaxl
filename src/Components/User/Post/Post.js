@@ -26,7 +26,8 @@ const Post = () => {
             .then(res => {
                 if (res.data.insertedId) {
                     e.target.value = '';
-                    alert('Your post has been submitted for review!')
+                    alert('Your post has been submitted for review!');
+                    e.target.reset();
                 } else {
                     alert('Your post cannot submitted due to some reason')
                 }

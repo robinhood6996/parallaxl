@@ -1,7 +1,7 @@
 import FirebaseInitialize from '../Firebase/firebase'
 import { useEffect, useState } from "react";
-import { useNavigate, useHistory, useLocation } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, updateProfile, signOut, signInWithEmailAndPassword } from "firebase/auth";
+
 
 FirebaseInitialize();
 const useFirebase = () => {
@@ -10,7 +10,6 @@ const useFirebase = () => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [userRole, setUserRole] = useState(false);
-    const [getUser, setGetUser] = useState({});
 
 
     /* ============ Register with email and password=============== */
@@ -37,11 +36,24 @@ const useFirebase = () => {
                     setError(error.message)
                 });
 
+            }).catch((error) => {
+                setError(error.message)
             })
             .finally(() => {
                 setIsLoading(false)
             })
     }
+
+    // const createUser = async (username, email, password, e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         const { user } = await auth.createUserWithEmailAndPassword(email, password);
+    //     }
+    //     catch {
+
+    //     }
+    // }
 
     // Login With Email and Password
     const logInWithEmailAndPass = (email, password, path, navigate) => {
@@ -52,9 +64,8 @@ const useFirebase = () => {
                     signInWithEmailAndPassword(auth, email, password)
                         .then((userCredential) => {
                             const user = userCredential.user;
-                            setUser(user)
-                            setError('')
-                            setIsLoading(true)
+                            setUser(user);
+                            setError('');
                             if (path) {
                                 navigate(path)
                             }
@@ -72,7 +83,7 @@ const useFirebase = () => {
                 } else {
                     setError('Your Account is not activate yet!')
                 }
-                setIsLoading(false);
+
             })
             .catch(error => {
                 setError(error.message);
@@ -83,15 +94,13 @@ const useFirebase = () => {
 
     /* ===== Observer user State ====== */
     useEffect(() => {
-        setIsLoading(true)
         const unSubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                setUser(user)
-                setIsLoading(false)
+                setUser(user);
             } else {
-                setUser({})
+                setUser({});
             }
-            setIsLoading(false)
+            setIsLoading(false);
         });
         return () => unSubscribe;
     }, [auth]);
@@ -125,14 +134,12 @@ const useFirebase = () => {
     //         })
     // }
 
-    //admin check 
+    //user role check 
     useEffect(() => {
-        setIsLoading(true)
         fetch(`http://localhost:5000/users/${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 setUserRole(data?.role);
-                setIsLoading(false)
             })
     }, [user.email])
 
@@ -145,7 +152,8 @@ const useFirebase = () => {
         });
     }
 
-    console.log(user)
+    console.log(user);
+    console.log(isLoading);
     return {
         registerWithEmailAndPass,
         logInWithEmailAndPass,

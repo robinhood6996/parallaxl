@@ -4,12 +4,16 @@ import { useParams } from 'react-router-dom';
 
 const ViewPost = () => {
     const [blog, setBlog] = useState({});
-    const id = '61f287b62c91398178175507';
+    const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`https://travelexss.herokuapp.com/blog/${id}`)
+        axios.get(`http://localhost:5000/posts/${id}`)
             .then(res => setBlog(res.data))
-    }, [])
+    }, []);
+
+    if (!blog) {
+        return
+    }
     return (
         <>
             <div className="blog container mx-auto p-4 mt-5">
@@ -17,7 +21,7 @@ const ViewPost = () => {
                     <h1 className='font-bold text-3xl'>{blog.title}</h1>
                 </div>
                 <div className="blog-img mt-4 ">
-                    <img className='rounded' src={blog.image} alt="" />
+                    <img className='rounded' src={`data:image/jpeg;base64, ${blog?.image}`} alt="" />
                 </div>
                 <div className="author grid grid-cols-2 mt-5">
                     <h2 className='font-semibold text-md text-gray-500'>Robin</h2>

@@ -5,7 +5,7 @@ import axios from 'axios';
 import useAuth from '../../../Hooks/useAuth';
 
 const Signup = () => {
-    const { registerWithEmailAndPass } = useAuth();
+    const { registerWithEmailAndPass, error } = useAuth();
     const [loginData, setLoginData] = useState({});
     const location = useLocation();
     const pathname = location?.state?.from?.pathname;
@@ -125,11 +125,11 @@ const Signup = () => {
                                 </span>
                                 Sign in
                             </button>
-                            <h2 className='text-center'>OR</h2>
-
                         </div>
                     </form>
-
+                    {
+                        error && <p className='text-red-600 font-bold'>{error}</p>
+                    }
                 </div>
             </div>
         </>

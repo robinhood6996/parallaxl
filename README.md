@@ -35,4 +35,8 @@ Axios
     ExpresJS
     NodeJS
 
+<<<<<<< HEAD
 #### Email me to get credentials for checking all functionality: fakrulrobin7@gmail.com
+=======
+#### Email me to get credentials for checking all functionality: fakrulrobin7@gmail.com
+>>>>>>> c6d8b806424e47fecf2959c8ec205f93585aaecf

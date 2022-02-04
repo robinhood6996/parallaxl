@@ -32,7 +32,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/posts/:id" element={<PrivateRoute><SingleBlog /></PrivateRoute>} />
-                        <Route path="/createpost" element={<UserPost />} />
+                        <Route path="/createpost" element={<PrivateRoute><UserPost /></PrivateRoute>} />
                         <Route path="/login" element={<UserLogin />} />
                         <Route path="/signup" element={<UserSignup />} />
                         <Route path="/dashboard" element={<AdminRoute><Dashboard /></AdminRoute>}>

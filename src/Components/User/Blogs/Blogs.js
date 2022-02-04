@@ -37,7 +37,7 @@ const Blogs = () => {
                                         className="w-full h-full object-center object-cover"
                                     />
                                 </div>
-                                <p className='text-sm text-gray-500'>Author</p>
+                                <p className='text-sm text-gray-500'>{blog?.author}</p>
                                 <h3 className=" text-2xl font-semibold text-gray-900 ">
                                     <Link to={`posts/${blog._id}`}>
                                         <span className="absolute inset-0" />

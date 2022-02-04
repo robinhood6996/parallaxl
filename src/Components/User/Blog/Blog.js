@@ -33,7 +33,7 @@ const Blog = () => {
                     <img className='rounded' src={`data:image/jpeg;base64, ${blog?.image}`} alt="" />
                 </div>
                 <div className="author grid grid-cols-2 mt-5">
-                    <h2 className='font-semibold text-md text-gray-500'>Robin</h2>
+                    <h2 className='font-semibold text-md text-gray-500'>{blog?.author}</h2>
 
                 </div>
 

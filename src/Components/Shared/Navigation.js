@@ -71,14 +71,22 @@ const Navigation = () => {
 
                     <Disclosure.Panel className="sm:hidden">
                         <div className="px-2 pt-2 pb-3 space-y-1 space-x-1">
-                            <Link to="/" className='block bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Home</Link>
+                            <Link to="/" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Home</Link>
                             {/* {
                                             user.email ? ' ' : <Link to="/login" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Login</Link>
                                         } */}
-                            <Link to="/createpost" className='block bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Create Post</Link>
-                            <Link to="/login" className='block bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Login</Link>
-                            <Link to="/dashboard" className=' block bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Dashboard</Link>
-                            <button className='block bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Logout</button>
+                            <Link to="/createpost" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Create Post</Link>
+                            {
+                                !user?.email ? <Link to="/login" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Login</Link>
+                                    :
+                                    <button className='bg-red-900 text-white px-3 py-2 rounded-md text-sm font-medium' onClick={handleLogout}>Logout</button>
+                            }
+                            {
+                                userRole === 'admin' && <Link to="/dashboard" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Dashboard</Link>
+                            }
+                            {
+                                userRole === 'staff' && <Link to="/staffboard" className='bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'>Manage Site</Link>
+                            }
                         </div>
                     </Disclosure.Panel>
                 </>

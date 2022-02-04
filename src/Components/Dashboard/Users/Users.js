@@ -1,13 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const Users = () => {
     const [users, setUsers] = useState([]);
     const [status, setStatus] = useState();
     const [statusValue, setStatusValue] = useState(2);
     useEffect(() => {
-        axios.get('http://localhost:5000/users')
+        axios.get('https://secret-crag-61568.herokuapp.com/users')
             .then(res => {
                 setUsers(res.data);
             })
@@ -19,7 +18,7 @@ const Users = () => {
     const handleStatus = (email, status) => {
         const confirm = window.confirm(`Are you sure to make this user ${status === 1 ? 'Active' : 'Inactive'} ?`);
         if (confirm) {
-            axios.put(`http://localhost:5000/users/status/${email}`, { status: status })
+            axios.put(`https://secret-crag-61568.herokuapp.com/users/status/${email}`, { status: status })
                 .then(res => {
                     if (res.data.matchedCount) {
                         alert('Status Changed');
@@ -83,6 +82,12 @@ const Users = () => {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                     >
+                                        Role
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
                                         Action
                                     </th>
                                 </tr>
@@ -114,6 +119,10 @@ const Users = () => {
                                                     </button>
                                             }
 
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-gray-900">{user.role}</div>
+                                            {/* <div className="text-sm text-gray-500">{person.department}</div> */}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button className="text-red-600 hover:text-red-900 bg-violet-300 p-2 rounded font-bold" >
@@ -150,6 +159,10 @@ const Users = () => {
                                             }
 
                                         </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-gray-900">{user.role}</div>
+                                            {/* <div className="text-sm text-gray-500">{person.department}</div> */}
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button className="text-red-600 hover:text-red-900 bg-violet-300 p-2 rounded font-bold" >
                                                 Delete
@@ -185,6 +198,10 @@ const Users = () => {
                                                     </button>
                                             }
 
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-gray-900">{user.role}</div>
+                                            {/* <div className="text-sm text-gray-500">{person.department}</div> */}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button className="text-red-600 hover:text-red-900 bg-violet-300 p-2 rounded font-bold" >
